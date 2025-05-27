@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 
 Route::get('/user', function (Request $request) {
@@ -33,3 +34,22 @@ Route::post('/logout', function (Request $request) {
 
     return response()->json(['message' => 'Logout feito com sucesso']);
 })->middleware('auth:sanctum');
+
+
+/*Route::post('/register', function (Request $request) {*/
+/*    $request->validate([*/
+/*        'name' => 'required|string|max:255',*/
+/*        'email' => 'required|string|email|max:255|unique:users',*/
+/*        'password' => 'required|string|min:8',*/
+/*    ]);*/
+/**/
+/*    $user = User::create([*/
+/*        'name' => $request->name,*/
+/*        'email' => $request->email,*/
+/*        'password' => Hash::make($request->password),*/
+/*    ]);*/
+/**/
+/*    $token = $user->createToken('api-token')->plainTextToken;*/
+/**/
+/*    return response()->json(['token' => $token], 201);*/
+/*});*/
