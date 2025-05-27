@@ -1,0 +1,27 @@
+### applications
+GET http://localhost:8000/api/applications
+Content-Type: application/json
+
+### post applications
+POST http://localhost:8000/api/applications
+Content-Type: application/json
+Accept: application/json
+
+{}
+### post applications
+# GET http://localhost:8000/api/applications/{application}
+# PATCH  http://localhost:8000/api/applications/{application}
+# DELETE http://localhost:8000/api/applications/{application}
+# POST http://localhost:8000/api/attachments
+# GET http://localhost:8000/api/documentation
+# POST http://localhost:8000/api/login 
+# POST http://localhost:8000/api/logout 
+# GET http://localhost:8000/api/oauth2-callback
+# GET http://localhost:8000/api/user 
+# GET http://localhost:8000/docs
+# GET http://localhost:8000/docs/asset/{asset}
+# GET http://localhost:8000/sanctum/csrf-cookie
+# GET http://localhost:8000/storage/{path}
+# GET http://localhost:8000/up 
+#
+#
