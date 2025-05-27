@@ -34,7 +34,9 @@ class ApplicationController extends Controller
             "title"=> "required|string|max:225",
         ]);
 
-        return Application::create($validated);
+        $application = Application::create($validated);
+
+        return response()->json($application, 201);
     }
 
     /**
