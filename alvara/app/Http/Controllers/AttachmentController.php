@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class AttachmentController extends Controller
 {
-    public function store(Request $request) {
+    public function upload(Request $request) {
         $request->validate([
             "application_id" => "required|exists:application_id",
-            "file" => "required|file",
+            "file" => "required|file|mimes:jpeg,jpg,png,pdf|max:5120", // 5MB
             "filename" => "required|filename"
         ]);
 

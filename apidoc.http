@@ -11,10 +11,16 @@ Accept: application/json
     "title": "Empresa 1"
 }
 ### post applications
+POST http://localhost:8000/api/attachments/upload
+Content-Type: multipart/form-data
+
+application_id=1
+filename=documento.pdf
+file=@/home/fran/Downloads/Aula4.pdf;type=application/pdf
+###
 # GET http://localhost:8000/api/applications/{application}
 # PATCH  http://localhost:8000/api/applications/{application}
 # DELETE http://localhost:8000/api/applications/{application}
-# POST http://localhost:8000/api/attachments
 # GET http://localhost:8000/api/documentation
 # POST http://localhost:8000/api/login 
 # POST http://localhost:8000/api/logout 
