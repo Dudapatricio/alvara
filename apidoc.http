@@ -10,11 +10,16 @@ Accept: application/json
 {
     "title": "Empresa 1"
 }
+### get applications
+GET http://localhost:8000/api/attachments
+Content-Type: application/json
+Accept: application/json
 ### post applications
 POST http://localhost:8000/api/attachments/upload
 Content-Type: multipart/form-data
+Accept: application/json
 
-application_id=1
+application=1
 filename=documento.pdf
 file=@/home/fran/Downloads/Aula4.pdf;type=application/pdf
 ###

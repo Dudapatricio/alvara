@@ -58,6 +58,7 @@ Route::post('/logout', function (Request $request) {
 
 
 Route::post("/attachments/upload", [AttachmentController::class, "upload"]);
+Route::get("/attachments", [AttachmentController::class, "index"]);
 
 /*Route::post("/applications", [ApplicationController::class, "store"]);*/
 Route::apiResource("/applications", ApplicationController::class);
