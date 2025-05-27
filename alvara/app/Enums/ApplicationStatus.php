@@ -4,7 +4,8 @@ namespace App\Enums;
 
 enum ApplicationStatus:string
 {
-    case IN_PROGRESS = "IPG";
+    case OPEN = "OPN";
+    case SENDED = "SED";
     case SUCCESS = "SUS";
     case REJECTED = "RGC";
 }

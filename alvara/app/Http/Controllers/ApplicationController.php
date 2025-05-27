@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 
 class ApplicationController extends Controller
 {
@@ -30,7 +29,6 @@ class ApplicationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            "status"=> "required|string|max:3",
             "title"=> "required|string|max:225",
         ]);
 
