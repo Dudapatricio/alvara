@@ -2,7 +2,7 @@
 
 use App\Models\Application;
 
-class ApplicationStateSended implements IApplicationState {
+class ApplicationStateOpen implements IApplicationState {
 
     protected Application $application;
 
@@ -11,15 +11,21 @@ class ApplicationStateSended implements IApplicationState {
     }
     public function send(): void
     {
-        throw new Exception("A Solicitação ja esta em andamento");
+        throw new Exception("A Solicitação foi rejeitada");
+
     }
 
     public function accept(): void
     {
+
+        throw new Exception("A Solicitação foi rejeitada");
     }
 
     public function reject(): void
     {
+
+        throw new Exception("A Solicitação já foi rejeitada");
     }
 
 }
+

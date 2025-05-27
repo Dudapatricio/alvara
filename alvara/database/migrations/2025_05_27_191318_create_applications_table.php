@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string("status")->default(ApplicationStatus->OPEN);
+            $table->string("status")->default(ApplicationStatus::OPEN);
             $table->string("title");
         });
     }

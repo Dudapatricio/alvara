@@ -7,7 +7,9 @@ POST http://localhost:8000/api/applications
 Content-Type: application/json
 Accept: application/json
 
-{}
+{
+    "title": "Empresa 1"
+}
 ### post applications
 # GET http://localhost:8000/api/applications/{application}
 # PATCH  http://localhost:8000/api/applications/{application}

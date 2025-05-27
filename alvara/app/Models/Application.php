@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use ApplicationStateInProgress;
+use ApplicationStateOpen;
 use ApplicationStateRejected;
 use ApplicationStateSucess;
+use ApplicationStateSended;
 use IApplicationState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,11 +31,13 @@ class Application extends Model
 
     public function getStatusController(): IApplicationState {
         switch ($this->status) {
-            case ApplicationStatus->SUCCESS:
+            case ApplicationStatus::SUCCESS:
                 return new ApplicationStateSucess($this);
-            case ApplicationStatus->IN_PROGRESS:
-                return new ApplicationStateInProgress($this);
-            case ApplicationStatus->REJECTED:
+            case ApplicationStatus::OPEN:
+                return new ApplicationStateOpen($this);
+            case ApplicationStatus::SENDED:
+                return new ApplicationStateSended($this);
+            case ApplicationStatus::REJECTED:
                 return new ApplicationStateRejected($this);
 
             default:
