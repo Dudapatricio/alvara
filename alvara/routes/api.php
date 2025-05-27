@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\AttachmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -53,3 +55,7 @@ Route::post('/logout', function (Request $request) {
 /**/
 /*    return response()->json(['token' => $token], 201);*/
 /*});*/
+
+
+Route::post("/attachments", [AttachmentController::class, "store"]);
+Route::apiResource("/applications", ApplicationController::class);
