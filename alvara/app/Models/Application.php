@@ -4,12 +4,13 @@ namespace App\Models;
 
 use ApplicationStateOpen;
 use ApplicationStateRejected;
-use ApplicationStateSucess;
+use ApplicationStateSuccess;
 use ApplicationStateSended;
 use IApplicationState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\ApplicationStatus;
+use App\Enums\ApplicationLicenseType;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use PHPUnit\Exception;
 
@@ -17,10 +18,16 @@ class Application extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["status","title"];
+    protected $fillable = [
+        "status",
+        "title",
+        "type",
+        "company_id",
+    ];
 
     protected $cast = [
         "status" => ApplicationStatus::class,
+        "type" => ApplicationLicenseType::class,
     ];
     /**
      * @return HasMany<Attachment,Application>
@@ -32,7 +39,7 @@ class Application extends Model
     public function getStatusController(): IApplicationState {
         switch ($this->status) {
             case ApplicationStatus::SUCCESS:
-                return new ApplicationStateSucess($this);
+                return new ApplicationStateSuccess($this);
             case ApplicationStatus::OPEN:
                 return new ApplicationStateOpen($this);
             case ApplicationStatus::SENDED:

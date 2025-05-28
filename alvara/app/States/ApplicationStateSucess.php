@@ -2,7 +2,7 @@
 
 use App\Models\Application;
 
-class ApplicationStateSucess implements IApplicationState {
+class ApplicationStateSuccess implements IApplicationState {
     protected Application $application;
 
     public function __construct(Application $application) {
