@@ -6,6 +6,7 @@ use App\Enums\ApplicationLicenseType;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ApplicationController extends Controller
 {
@@ -79,7 +80,28 @@ class ApplicationController extends Controller
     {
         $application->delete();
         return response()->json([
-            "message"=> "Deletado com successo"
+            "message" => "Deletado com successo"
+        ]);
+    }
+
+    public function accept(Application $application): JsonResponse {
+        $application->getStatusController()->accept();
+        return response()->json([
+            "message" => "A Solicitação foi Aceita!"
+        ]);
+    }
+
+    public function reject(Application $application): JsonResponse {
+        $application->getStatusController()->reject();
+        return response()->json([
+            "message" => "A Solicitação foi Rejeitada!"
+        ]);
+    }
+
+    public function send(Application $application): JsonResponse {
+        $application->getStatusController()->send();
+        return response()->json([
+            "message" => "A Solicitação foi Enviada!"
         ]);
     }
 }

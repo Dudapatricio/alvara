@@ -1,6 +1,10 @@
 <?php
 
+namespace App\States;
+
+use App\Enums\ApplicationStatus;
 use App\Models\Application;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ApplicationStateOpen implements IApplicationState {
 
@@ -11,20 +15,22 @@ class ApplicationStateOpen implements IApplicationState {
     }
     public function send(): void
     {
-        throw new Exception("A Solicitação foi rejeitada");
-
+        $this->application->status = ApplicationStatus::SENDED->value;
+        $this->application->save();
     }
 
     public function accept(): void
     {
-
-        throw new Exception("A Solicitação foi rejeitada");
+        throw new HttpResponseException(response()->json([
+            "message" => "A Solicitação Esta pendente de envio"
+        ], 400));
     }
 
     public function reject(): void
     {
-
-        throw new Exception("A Solicitação já foi rejeitada");
+        throw new HttpResponseException(response()->json([
+            "message" => "A Solicitação Esta pendente de envio"
+        ], 400));
     }
 
 }

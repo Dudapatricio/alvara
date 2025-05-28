@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use ApplicationStateOpen;
-use ApplicationStateRejected;
-use ApplicationStateSuccess;
-use ApplicationStateSended;
-use IApplicationState;
+use App\States\ApplicationStateOpen;
+use App\States\ApplicationStateRejected;
+use App\States\ApplicationStateSended;
+use App\States\ApplicationStateSuccess;
+use App\States\IApplicationState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\ApplicationStatus;
 use App\Enums\ApplicationLicenseType;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use PHPUnit\Exception;
 
 class Application extends Model
@@ -29,22 +28,19 @@ class Application extends Model
         "status" => ApplicationStatus::class,
         "type" => ApplicationLicenseType::class,
     ];
-    /**
-     * @return HasMany<Attachment,Application>
-     */
-    public function attachments(): HasMany {
+    public function attachments() {
         return $this->hasMany(Attachment::class);
     }
 
     public function getStatusController(): IApplicationState {
         switch ($this->status) {
-            case ApplicationStatus::SUCCESS:
+            case ApplicationStatus::SUCCESS->value:
                 return new ApplicationStateSuccess($this);
-            case ApplicationStatus::OPEN:
+            case ApplicationStatus::OPEN->value:
                 return new ApplicationStateOpen($this);
-            case ApplicationStatus::SENDED:
+            case ApplicationStatus::SENDED->value:
                 return new ApplicationStateSended($this);
-            case ApplicationStatus::REJECTED:
+            case ApplicationStatus::REJECTED->value:
                 return new ApplicationStateRejected($this);
 
             default:

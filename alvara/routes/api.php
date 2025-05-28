@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
+use function Pest\Laravel\post;
 
 /*Route::get('/user', function (Request $request) {*/
 /*    return $request->user();*/
@@ -66,6 +67,13 @@ Route::apiResource(
     "/applications",
     ApplicationController::class
 )->only(["index", "store", "show", "update"]);
+
+Route::prefix("/applications/{application}")->group(function () {
+    Route::post("accept", [ApplicationController::class, "accept"]);
+    Route::post("reject", [ApplicationController::class, "reject"]);
+    Route::post("send", [ApplicationController::class, "send"]);
+});
+
 
 Route::apiResource(
     "companies",

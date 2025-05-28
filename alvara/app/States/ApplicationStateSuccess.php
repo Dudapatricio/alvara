@@ -2,34 +2,36 @@
 
 namespace App\States;
 
-use App\Enums\ApplicationStatus;
 use App\Models\Application;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ApplicationStateSended implements IApplicationState {
-
+class ApplicationStateSuccess implements IApplicationState {
     protected Application $application;
 
     public function __construct(Application $application) {
         $this->application = $application;
     }
+
     public function send(): void
     {
         throw new HttpResponseException(response()->json([
-            "message" => "A Solicitação ja esta em andamento"
+            "message" => "A Solicitação foi Aceita"
         ], 400));
     }
 
     public function accept(): void
     {
-        $this->application->status = ApplicationStatus::SUCCESS->value;
-        $this->application->save();
+        throw new HttpResponseException(response()->json([
+            "message" => "A Solicitação já foi Aceita"
+        ], 400));
     }
 
     public function reject(): void
     {
-        $this->application->status = ApplicationStatus::REJECTED->value;
-        $this->application->save();
+        throw new HttpResponseException(response()->json([
+            "message" => "A Solicitação foi Aceita"
+        ], 400));
     }
 
 }
+

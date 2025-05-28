@@ -13,6 +13,18 @@ Accept: application/json
     "company_id": 1
 }
 
+### POST SEND APPLICATIONS
+POST {{BASE_REQUEST}}/api/applications/2/send
+Accept: application/json
+
+### POST ACCEPT APPLICATIONS
+POST {{BASE_REQUEST}}/api/applications/2/accept
+Accept: application/json
+
+### POST ACCEPT APPLICATIONS
+POST {{BASE_REQUEST}}/api/applications/2/reject
+Accept: application/json
+
 ### GET COMPANIES
 GET {{BASE_REQUEST}}/api/companies
 Content-Type:application/json
