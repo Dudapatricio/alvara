@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -11,7 +13,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        return Company::all();
     }
 
     /**
@@ -25,9 +27,18 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        //
+        $validated = $request->validate([
+            "name" => "required|string|max:225",
+            "cnpj" => "required|string|max:15",
+            "address_string" => "required|string|max:225",
+            "description" => "required|string|max:225",
+        ]);
+
+        $company = Company::create($validated);
+
+        return response()->json($company, 201);
     }
 
     /**

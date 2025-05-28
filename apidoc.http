@@ -1,40 +1,31 @@
-### applications
-GET http://localhost:8000/api/applications
+### GET APPLICATIONS
+GET {{BASE_REQUEST}}/api/applications
 Content-Type: application/json
 
-### post applications
-POST http://localhost:8000/api/applications
+### POST APPLICATIONS
+POST {{BASE_REQUEST}}/api/applications
 Content-Type: application/json
 Accept: application/json
 
 {
-    "title": "Empresa 1"
+    "title": "Empresa 1",
+    "type": "CMT",
+    "company_id": 1
 }
-### get applications
-GET http://localhost:8000/api/attachments
-Content-Type: application/json
-Accept: application/json
-### post applications
-POST http://localhost:8000/api/attachments/upload
-Content-Type: multipart/form-data
+
+### GET COMPANIES
+GET {{BASE_REQUEST}}/api/companies
+Content-Type:application/json
 Accept: application/json
 
-application=1
-filename=documento.pdf
-file=@/home/fran/Downloads/Aula4.pdf;type=application/pdf
-###
-# GET http://localhost:8000/api/applications/{application}
-# PATCH  http://localhost:8000/api/applications/{application}
-# DELETE http://localhost:8000/api/applications/{application}
-# GET http://localhost:8000/api/documentation
-# POST http://localhost:8000/api/login 
-# POST http://localhost:8000/api/logout 
-# GET http://localhost:8000/api/oauth2-callback
-# GET http://localhost:8000/api/user 
-# GET http://localhost:8000/docs
-# GET http://localhost:8000/docs/asset/{asset}
-# GET http://localhost:8000/sanctum/csrf-cookie
-# GET http://localhost:8000/storage/{path}
-# GET http://localhost:8000/up 
-#
-#
+### POST COMPANIES
+POST {{BASE_REQUEST}}/api/companies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "UNINASSAU",
+  "cnpj": "111111111111111",
+  "address_string": "Rua das flores av. Antoinho, n.50001",
+  "description": "Universidade Ensino Educacional"
+}
