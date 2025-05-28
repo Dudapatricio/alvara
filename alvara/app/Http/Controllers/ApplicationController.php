@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ApplicationLicenseType;
 use App\Models\Application;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ApplicationController extends Controller
 {
@@ -29,7 +31,9 @@ class ApplicationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            "title"=> "required|string|max:225",
+            "title" => "required|string|max:225",
+            "type" => ["required", Rule::enum(ApplicationLicenseType::class)],
+            "company_id" => "required|exists:companies,id",
         ]);
 
         $application = Application::create($validated);
