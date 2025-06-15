@@ -1,3 +1,4 @@
+import 'package:app/ui/components/MyTextButton.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -14,19 +15,16 @@ class Home extends StatelessWidget {
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              child: FilledButton(
+              child: MyTextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, "/companies");
                 },
-                child: const Text("Empresas"),
+                text: "Empresas",
               ),
             ),
             Container(
               alignment: Alignment.center,
-              child: FilledButton(
-                onPressed: () {},
-                child: const Text("Solicitações"),
-              ),
+              child: MyTextButton(onPressed: () {}, text: "Solicitações"),
             ),
           ],
         ),
