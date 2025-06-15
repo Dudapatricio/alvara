@@ -11,18 +11,28 @@ class Company implements IModel {
   String description;
 
   Company({
+    this.id,
     required this.name,
     required this.cnpj,
     required this.addressString,
     required this.description,
   });
 
+  factory Company.fromMap(Map<String, dynamic> object) {
+    return Company(
+      name: object["name"],
+      cnpj: object["cnpj"],
+      addressString: object["address_string"],
+      description: object["description"],
+    );
+  }
+
   factory Company.fromJson(String jsonContent) {
     final object = json.decode(jsonContent);
     return Company(
       name: object["name"],
       cnpj: object["cnpj"],
-      addressString: object["addressString"],
+      addressString: object["address_string"],
       description: object["description"],
     );
   }
@@ -31,7 +41,7 @@ class Company implements IModel {
     final jsonMap = {
       'name': name,
       'cnpj': cnpj,
-      'addressString': addressString,
+      'address_string': addressString,
       'description': description,
     };
     return json.encode(jsonMap);

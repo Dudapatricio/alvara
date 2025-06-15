@@ -4,6 +4,7 @@ import 'package:app/data/models/Company.dart';
 import 'package:app/data/repositories/IApiRepository.dart';
 
 class ApiCompaniesRepository implements IApiRepository<Company> {
+  @override
   Api apiDomain = Api.getInstance();
 
   @override
@@ -11,7 +12,7 @@ class ApiCompaniesRepository implements IApiRepository<Company> {
     final response = await apiDomain.get("/companies");
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
-      return jsonList.map((jsonItem) => Company.fromJson(jsonItem)).toList();
+      return jsonList.map((jsonItem) => Company.fromMap(jsonItem)).toList();
     } else {
       throw Exception('Erro na requisição: ${response.statusCode}');
     }
@@ -23,7 +24,7 @@ class ApiCompaniesRepository implements IApiRepository<Company> {
 
     if (response.statusCode == 201) {
       final jsonMap = json.decode(response.body);
-      return Company.fromJson(jsonMap);
+      return Company.fromMap(jsonMap);
     } else {
       throw Exception('Falha ao criar empresa: ${response.statusCode}');
     }
