@@ -1,7 +1,7 @@
 import 'package:app/domain/factories/DomainRepositoryFactory.dart';
-import 'package:app/domain/repositories/DomainCompanyRepository.dart';
+import 'package:app/domain/repositories/DomainApplicationRepository.dart';
 import 'package:flutter/material.dart';
-import 'package:app/domain/models/Company.dart';
+import 'package:app/domain/models/Application.dart';
 import 'package:app/domain/repositories/IRepository.dart';
 
 class Applications extends StatefulWidget {
@@ -12,14 +12,14 @@ class Applications extends StatefulWidget {
 }
 
 class _CompaniesState extends State<Applications> {
-  late final IRepository<Company> repository;
-  late Future<List<Company>> companiesFuture;
+  late final IRepository<Application> repository;
+  late Future<List<Application>> companiesFuture;
 
   @override
   void initState() {
     super.initState();
     repository =
-        DomainRepositoryFactory().getRepository<DomainCompanyRepository>();
+        DomainRepositoryFactory().getRepository<DomainApplicationRepository>();
     companiesFuture = repository.list();
   }
 
@@ -27,7 +27,7 @@ class _CompaniesState extends State<Applications> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Empresas")),
-      body: FutureBuilder<List<Company>>(
+      body: FutureBuilder<List<Application>>(
         future: companiesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -36,17 +36,17 @@ class _CompaniesState extends State<Applications> {
           if (snapshot.hasError) {
             return Center(child: Text("Erro: ${snapshot.error}"));
           }
-          final companies = snapshot.data ?? [];
-          if (companies.isEmpty) {
+          final applications = snapshot.data ?? [];
+          if (applications.isEmpty) {
             return const Center(child: Text("Nenhuma empresa encontrada."));
           }
           return ListView.builder(
-            itemCount: companies.length,
+            itemCount: applications.length,
             itemBuilder: (context, index) {
-              final company = companies[index];
+              final application = applications[index];
               return ListTile(
-                title: Text(company.name ?? "Sem nome"),
-                subtitle: Text(company.id?.toString() ?? "ID desconhecido"),
+                title: Text(application.title ?? "Sem nome"),
+                subtitle: Text(application.id?.toString() ?? "ID desconhecido"),
               );
             },
           );

@@ -1,9 +1,11 @@
+import 'package:app/domain/repositories/DomainApplicationRepository.dart';
 import 'package:app/domain/repositories/DomainCompanyRepository.dart';
 import 'package:app/domain/repositories/IRepository.dart';
 
 class DomainRepositoryFactory {
   final _creators = <Type, dynamic Function()>{
     DomainCompanyRepository: () => DomainCompanyRepository(),
+    DomainApplicationRepository: () => DomainApplicationRepository(),
   };
 
   T getRepository<T extends IRepository>() {
