@@ -26,7 +26,7 @@ class _CompaniesState extends State<Applications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Empresas")),
+      appBar: AppBar(title: const Text("Solicitações")),
       body: FutureBuilder<List<Application>>(
         future: companiesFuture,
         builder: (context, snapshot) {
@@ -38,7 +38,7 @@ class _CompaniesState extends State<Applications> {
           }
           final applications = snapshot.data ?? [];
           if (applications.isEmpty) {
-            return const Center(child: Text("Nenhuma empresa encontrada."));
+            return const Center(child: Text("Nenhuma solicitação encontrada."));
           }
           return ListView.builder(
             itemCount: applications.length,
