@@ -1,6 +1,10 @@
 import 'dart:convert';
 
-class Company {
+import 'package:app/data/models/IModel.dart';
+
+class Company implements IModel {
+  @override
+  int? id;
   String name;
   String cnpj;
   String addressString;

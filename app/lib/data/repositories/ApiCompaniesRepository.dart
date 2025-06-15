@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:app/data/Api.dart';
 import 'package:app/data/models/Company.dart';
-import 'package:app/data/repositories/IRepository.dart';
+import 'package:app/data/repositories/IApiRepository.dart';
 
-class ApiCompaniesRepository implements IRepository<Company> {
+class ApiCompaniesRepository implements IApiRepository<Company> {
   Api apiDomain = Api.getInstance();
 
   @override
