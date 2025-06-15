@@ -13,9 +13,15 @@ class Api {
     return _instance!;
   }
 
-  Future<http.Response> request(String uri) async {
+  Future<http.Response> get(String uri) async {
     final url = Uri.parse('$baseDomain$uri');
     final response = await http.get(url);
+    return response;
+  }
+
+  Future<http.Response> post(String uri, String obj) async {
+    final url = Uri.parse('$baseDomain$uri');
+    final response = await http.post(url, body: obj);
     return response;
   }
 }
