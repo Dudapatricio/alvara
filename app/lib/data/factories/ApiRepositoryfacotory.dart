@@ -1,9 +1,11 @@
+import 'package:app/data/repositories/ApiApplicationRepository.dart';
 import 'package:app/data/repositories/IApiRepository.dart';
 import 'package:app/data/repositories/ApiCompaniesRepository.dart';
 
 class ApiRepositoryFactory {
   final _creators = <Type, dynamic Function()>{
     ApiCompaniesRepository: () => ApiCompaniesRepository(),
+    ApiApplicationRepository: () => ApiApplicationRepository(),
   };
 
   T getRepository<T extends IApiRepository>() {
