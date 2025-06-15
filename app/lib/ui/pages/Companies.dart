@@ -1,6 +1,6 @@
 import 'package:app/domain/factories/DomainRepositoryFactory.dart';
 import 'package:app/domain/repositories/DomainCompanyRepository.dart';
-import 'package:app/ui/pages/AddCompany.dart';
+import 'package:app/ui/components/AddCompany.dart';
 import 'package:flutter/material.dart';
 import 'package:app/domain/models/Company.dart';
 import 'package:app/domain/repositories/IRepository.dart';
