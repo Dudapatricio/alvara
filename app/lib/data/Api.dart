@@ -15,13 +15,26 @@ class Api {
 
   Future<http.Response> get(String uri) async {
     final url = Uri.parse('$baseDomain$uri');
-    final response = await http.get(url);
+    final response = await http.get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+    );
     return response;
   }
 
   Future<http.Response> post(String uri, String obj) async {
     final url = Uri.parse('$baseDomain$uri');
-    final response = await http.post(url, body: obj);
+    final response = await http.post(
+      url,
+      body: obj,
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+    );
     return response;
   }
 }

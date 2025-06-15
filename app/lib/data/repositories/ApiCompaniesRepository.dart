@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'package:app/data/Api.dart';
 import 'package:app/data/models/Company.dart';
+import 'package:app/data/repositories/IRepository.dart';
 
-class ApiCompaniesRepository {
+class ApiCompaniesRepository implements IRepository<Company> {
   Api apiDomain = Api.getInstance();
+
+  @override
   Future<List<Company>> list() async {
     final response = await apiDomain.get("/companies");
     if (response.statusCode == 200) {
@@ -14,6 +17,7 @@ class ApiCompaniesRepository {
     }
   }
 
+  @override
   Future<Company> create(Company company) async {
     final response = await apiDomain.post("/companies", company.toJson());
 
@@ -23,5 +27,10 @@ class ApiCompaniesRepository {
     } else {
       throw Exception('Falha ao criar empresa: ${response.statusCode}');
     }
+  }
+
+  @override
+  Future<Company> get() {
+    throw UnimplementedError();
   }
 }
