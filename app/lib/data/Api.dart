@@ -5,7 +5,7 @@ class Api {
   static Api? _instance;
 
   // Construtor privado
-  Api._({this.baseDomain = "http://localhost:8000"});
+  Api._({this.baseDomain = "http://localhost:8000/api"});
 
   // Singleton getter
   static Api getInstance() {
