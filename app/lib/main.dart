@@ -1,3 +1,4 @@
+import 'package:app/ui/pages/Applications.dart';
 import 'package:app/ui/pages/Companies.dart';
 import 'package:app/ui/pages/Home.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => Home(),
         "/companies": (context) => Companies(),
+        "/applications": (context) => Applications(),
       },
     );
   }

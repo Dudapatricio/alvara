@@ -24,7 +24,12 @@ class Home extends StatelessWidget {
             ),
             Container(
               alignment: Alignment.center,
-              child: MyTextButton(onPressed: () {}, text: "Solicitações"),
+              child: MyTextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/applications");
+                },
+                text: "Solicitações",
+              ),
             ),
           ],
         ),
