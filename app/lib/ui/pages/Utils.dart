@@ -1,5 +1,5 @@
 class Validators {
-  List<bool> _vlidators = [];
+  final List<bool> _validators = [];
   String _errorMessage = "";
   final String? value;
 
@@ -10,41 +10,32 @@ class Validators {
     return this;
   }
 
-  bool valid() {
-    return !_vlidators.any((it) => !it);
-  }
+  bool valid() => !_validators.contains(false);
 
-  String? apply() {
-    return valid() ? null : _errorMessage;
-  }
+  String? apply() => valid() ? null : _errorMessage;
 
   Validators isNotNull() {
-    final b = value != null;
-    _vlidators.add(b);
+    _validators.add(value != null);
     return this;
   }
 
   Validators isNotEmpty() {
-    final b = value!.isNotEmpty;
-    _vlidators.add(b);
+    _validators.add(value != null && value!.isNotEmpty);
     return this;
   }
 
   Validators isMinLengh(int min) {
-    final b = value!.length < min;
-    _vlidators.add(b);
+    _validators.add(value != null && value!.length >= min);
     return this;
   }
 
   Validators isMaxLengh(int max) {
-    final b = value!.length > max;
-    _vlidators.add(b);
+    _validators.add(value != null && value!.length <= max);
     return this;
   }
 
   Validators isOnlyNumber() {
-    final b = value!.replaceAll(RegExp(r"[^0-9]"), "").isEmpty;
-    _vlidators.add(b);
+    _validators.add(value != null && RegExp(r'^\d+$').hasMatch(value!));
     return this;
   }
 }

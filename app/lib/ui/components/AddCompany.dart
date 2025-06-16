@@ -8,7 +8,7 @@ class AddCompany extends StatefulWidget {
   const AddCompany({super.key});
 
   @override
-  State<StatefulWidget> createState() => _AddCompany();
+  State<AddCompany> createState() => _AddCompany();
 }
 
 class _AddCompany extends State<AddCompany> {
@@ -17,59 +17,58 @@ class _AddCompany extends State<AddCompany> {
   String _cnpj = "";
   String _addressString = "";
   String _description = "";
+
   @override
   Widget build(BuildContext context) {
     return Wrap(
       children: [
         Form(
+          key: _formKey,
           child: Column(
             children: [
               TextFormField(
                 decoration: const InputDecoration(labelText: "Nome"),
-                validator:
-                    (value) =>
-                        Validators(value)
-                            .setErroMessage("Nome invalido")
-                            .isNotNull()
-                            .isNotEmpty()
-                            .isMinLengh(10)
-                            .isMaxLengh(200)
-                            .apply(),
-                onSaved: (value) => _name = value!,
+                validator: (value) => Validators(value)
+                    .setErroMessage("Nome inválido")
+                    .isNotNull()
+                    .isNotEmpty()
+                    .isMinLengh(10)
+                    .isMaxLengh(200)
+                    .apply(),
+                onSaved: (value) => _name = value ?? '',
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: "Cnpj"),
-                validator:
-                    (value) =>
-                        Validators(value)
-                            .setErroMessage("Cnpj invalido")
-                            .isNotNull()
-                            .isNotEmpty()
-                            .isMinLengh(14)
-                            .isMaxLengh(14)
-                            .isOnlyNumber()
-                            .apply(),
-                onSaved: (value) => _cnpj = value!,
+                decoration: const InputDecoration(labelText: "CNPJ"),
+                validator: (value) => Validators(value)
+                    .setErroMessage("CNPJ inválido")
+                    .isNotNull()
+                    .isNotEmpty()
+                    .isMinLengh(14)
+                    .isMaxLengh(14)
+                    .isOnlyNumber()
+                    .apply(),
+                onSaved: (value) => _cnpj = value ?? '',
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Endereço"),
-                validator:
-                    (value) =>
-                        Validators(value)
-                            .setErroMessage("Endereço invalido")
-                            .isNotNull()
-                            .isNotEmpty()
-                            .isMinLengh(3)
-                            .isMaxLengh(200)
-                            .apply(),
-                onSaved: (value) => _addressString = value!,
+                validator: (value) => Validators(value)
+                    .setErroMessage("Endereço inválido")
+                    .isNotNull()
+                    .isNotEmpty()
+                    .isMinLengh(3)
+                    .isMaxLengh(200)
+                    .apply(),
+                onSaved: (value) => _addressString = value ?? '',
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Descrição"),
-                onSaved: (value) => _description = value!,
+                onSaved: (value) => _description = value ?? '',
               ),
               const SizedBox(height: 16),
-              ElevatedButton(onPressed: _submit, child: const Text("Salvar")),
+              ElevatedButton(
+                onPressed: _submit,
+                child: const Text("Salvar"),
+              ),
             ],
           ),
         ),
@@ -78,14 +77,11 @@ class _AddCompany extends State<AddCompany> {
   }
 
   void _submit() {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
+    if (!_formKey.currentState!.validate()) return;
 
     _formKey.currentState!.save();
-    Navigator.of(context).pop();
-    final repository =
-        DomainRepositoryFactory().getRepository<DomainCompanyRepository>();
+
+    final repository = DomainRepositoryFactory().getRepository<DomainCompanyRepository>();
     repository
         .create(
           Company(
@@ -95,25 +91,24 @@ class _AddCompany extends State<AddCompany> {
             description: _description,
           ),
         )
-        .then((company) {
-          if (!context.mounted) return;
+        .then((_) {
+          if (!mounted) return;
+          Navigator.of(context).pop();
           showDialog(
             context: context,
-            builder:
-                (_) => const AlertDialog(
-                  content: Text('Empresa criada com sucesso!'),
-                ),
+            builder: (_) => const AlertDialog(
+              content: Text('Empresa criada com sucesso!'),
+            ),
           );
         })
         .onError((error, _) {
-          if (!context.mounted) return;
+          if (!mounted) return;
           showDialog(
             context: context,
-            builder:
-                (_) => AlertDialog(
-                  title: const Text('Erro'),
-                  content: Text('Falha ao criar empresa: $error'),
-                ),
+            builder: (_) => AlertDialog(
+              title: const Text('Erro'),
+              content: Text('Falha ao criar empresa: $error'),
+            ),
           );
         });
   }
