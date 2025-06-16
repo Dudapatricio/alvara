@@ -14,8 +14,8 @@ class NewApplication extends StatefulWidget {
 
 class _NewApplication extends State<NewApplication> {
   final _formKey = GlobalKey<FormState>();
-  String _title = "";
-  String _type = "";
+  String? _title;
+  String? _type;
   late int id;
   _NewApplication({required this.id});
 
@@ -42,7 +42,12 @@ class _NewApplication extends State<NewApplication> {
               ),
               DropdownButtonFormField(
                 decoration: const InputDecoration(labelText: "Tipo"),
-                items: [DropdownMenuItem(key: Key("ok"), child: Text("ok"))],
+                items: [
+                  DropdownMenuItem(value: "CMT", child: Text("COMMERCIAL")),
+                  DropdownMenuItem(value: "IND", child: Text("INDUSTRIAL")),
+                  DropdownMenuItem(value: "RST", child: Text("RESIDENTIAL")),
+                ],
+
                 onChanged: (value) => {setState(() => _type = value ?? "")},
                 validator:
                     (value) =>
@@ -67,7 +72,7 @@ class _NewApplication extends State<NewApplication> {
     final repository =
         DomainRepositoryFactory().getRepository<DomainApplicationRepository>();
     repository
-        .create(Application(companyId: id, title: _title, type: _type))
+        .create(Application(companyId: id, title: _title!, type: _type!))
         .then((_) {
           if (!mounted) return;
           Navigator.of(context).pop();
