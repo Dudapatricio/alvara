@@ -29,4 +29,9 @@ class DomainCompanyRepository implements IRepository<Company> {
         .map((apiModel) => Company.fromApi(apiModel as dynamic))
         .toList();
   }
+
+  @override
+  Future delete(int id) {
+    throw UnimplementedError();
+  }
 }

@@ -8,19 +8,28 @@ class Applications extends StatefulWidget {
   const Applications({super.key});
 
   @override
-  State<Applications> createState() => _CompaniesState();
+  State<Applications> createState() => _ApplicationsState();
 }
 
-class _CompaniesState extends State<Applications> {
-  late final IRepository<Application> repository;
-  late Future<List<Application>> companiesFuture;
+class _ApplicationsState extends State<Applications> {
+  late final DomainApplicationRepository repository;
+  late Future<List<Application>> applicationsFuture;
 
   @override
   void initState() {
     super.initState();
     repository =
         DomainRepositoryFactory().getRepository<DomainApplicationRepository>();
-    companiesFuture = repository.list();
+    _loadApplications();
+  }
+
+  void _loadApplications() {
+    applicationsFuture = repository.list();
+  }
+
+  void _deleteApplication(Application app) async {
+    await repository.delete(app.id!);
+    setState(() => _loadApplications());
   }
 
   @override
@@ -28,7 +37,7 @@ class _CompaniesState extends State<Applications> {
     return Scaffold(
       appBar: AppBar(title: const Text("Solicitações")),
       body: FutureBuilder<List<Application>>(
-        future: companiesFuture,
+        future: applicationsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -47,6 +56,10 @@ class _CompaniesState extends State<Applications> {
               return ListTile(
                 title: Text(application.title ?? "Sem nome"),
                 subtitle: Text(application.id?.toString() ?? "ID desconhecido"),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () => _deleteApplication(application),
+                ),
               );
             },
           );

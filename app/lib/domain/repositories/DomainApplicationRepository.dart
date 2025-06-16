@@ -29,4 +29,9 @@ class DomainApplicationRepository implements IRepository<Application> {
         .map((apiModel) => Application.fromApi(apiModel as dynamic))
         .toList();
   }
+
+  @override
+  Future delete(int id) {
+    throw UnimplementedError();
+  }
 }

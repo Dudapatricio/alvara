@@ -4,7 +4,6 @@ import 'package:app/ui/components/AddCompany.dart';
 import 'package:app/ui/components/NewApplication.dart';
 import 'package:flutter/material.dart';
 import 'package:app/domain/models/Company.dart';
-import 'package:app/domain/repositories/IRepository.dart';
 
 class Companies extends StatefulWidget {
   const Companies({super.key});
@@ -14,7 +13,7 @@ class Companies extends StatefulWidget {
 }
 
 class _CompaniesState extends State<Companies> {
-  late final IRepository<Company> repository;
+  late final DomainCompanyRepository repository;
   late Future<List<Company>> companiesFuture;
 
   @override
@@ -23,6 +22,10 @@ class _CompaniesState extends State<Companies> {
     repository =
         DomainRepositoryFactory().getRepository<DomainCompanyRepository>();
     companiesFuture = repository.list();
+  }
+
+  void _loadCompanies() {
+    companiesFuture;
   }
 
   @override
