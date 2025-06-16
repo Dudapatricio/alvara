@@ -1,6 +1,7 @@
 import 'package:app/domain/factories/DomainRepositoryFactory.dart';
 import 'package:app/domain/repositories/DomainCompanyRepository.dart';
 import 'package:app/ui/components/AddCompany.dart';
+import 'package:app/ui/components/NewApplication.dart';
 import 'package:flutter/material.dart';
 import 'package:app/domain/models/Company.dart';
 import 'package:app/domain/repositories/IRepository.dart';
@@ -52,6 +53,7 @@ class _CompaniesState extends State<Companies> {
               return ListTile(
                 title: Text(company.name ?? "Sem nome"),
                 subtitle: Text(company.id?.toString() ?? "ID desconhecido"),
+                onTap: () => _showNewApplicationForm(context, company.id ?? 0),
               );
             },
           );
@@ -73,6 +75,23 @@ class _CompaniesState extends State<Companies> {
               top: 16,
             ),
             child: const AddCompany(),
+          ),
+    );
+  }
+
+  void _showNewApplicationForm(BuildContext context, int id) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder:
+          (context) => Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: 16,
+              right: 16,
+              top: 16,
+            ),
+            child: NewApplication(id: id),
           ),
     );
   }

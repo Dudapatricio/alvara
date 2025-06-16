@@ -4,14 +4,14 @@ import 'package:app/data/models/Application.dart' as api;
 class Application implements IModel {
   @override
   int? id;
-  String status;
+  String? status;
   String title;
   String type;
-  String companyId;
+  int companyId;
 
   Application({
     this.id,
-    required this.status,
+    this.status,
     required this.title,
     required this.type,
     required this.companyId,
