@@ -13,11 +13,12 @@ class Applications extends StatefulWidget {
 class _ApplicationsState extends State<Applications> {
   late final DomainApplicationRepository _repository;
   late Future<List<Application>> _applicationsFuture;
+
   final Map<String, String> statusMap = {
     'OPN': 'Criado',
     'SED': 'Enviado',
     'SUS': 'Aprovado',
-    "RGC": "Rejeitado",
+    'RGC': 'Rejeitado',
   };
 
   @override
@@ -32,42 +33,6 @@ class _ApplicationsState extends State<Applications> {
     _applicationsFuture = _repository.list();
   }
 
-  Future<void> _deleteApplication(Application app) async {
-    try {
-      await _repository.delete(app.id!);
-      setState(_loadApplications);
-    } catch (e) {
-      _showError("Erro ao excluir: $e");
-    }
-  }
-
-  Future<void> _acceptApplication(Application app) async {
-    try {
-      await _repository.accept(app.id!);
-      setState(_loadApplications);
-    } catch (e) {
-      _showError("Erro ao aceitar: $e");
-    }
-  }
-
-  Future<void> _rejectApplication(Application app) async {
-    try {
-      await _repository.reject(app.id!);
-      setState(_loadApplications);
-    } catch (e) {
-      _showError("Erro ao rejeitar: $e");
-    }
-  }
-
-  Future<void> _sendApplication(Application app) async {
-    try {
-      await _repository.send(app.id!);
-      setState(_loadApplications);
-    } catch (e) {
-      _showError("Erro ao enviar: $e");
-    }
-  }
-
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message), backgroundColor: Colors.red),
@@ -80,11 +45,113 @@ class _ApplicationsState extends State<Applications> {
         return Colors.green;
       case 'RGC':
         return Colors.red;
-      case "OPN":
-        return Colors.black;
-      default:
+      case 'OPN':
         return Colors.orange;
+      case 'SED':
+        return Colors.blue;
+      default:
+        return Colors.grey;
     }
+  }
+
+  Future<void> _handleAction(
+    Future<void> Function() action,
+    String errorMsg,
+  ) async {
+    try {
+      await action();
+      setState(_loadApplications);
+    } catch (e) {
+      _showError("$errorMsg: $e");
+    }
+  }
+
+  Widget _buildApplicationCard(Application app) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(app.title ?? 'Sem nome',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                )),
+            const SizedBox(height: 8),
+            Text("ID: ${app.id ?? 'Desconhecido'}"),
+            const SizedBox(height: 4),
+            Text(
+              "Status: ${statusMap[app.status] ?? app.status}",
+              style: TextStyle(
+                color: _getStatusColor(app.status ?? ''),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                _buildIconButton(
+                  icon: Icons.check,
+                  color: Colors.green,
+                  tooltip: 'Aprovar',
+                  onPressed: () => _handleAction(
+                    () => _repository.accept(app.id!),
+                    'Erro ao aprovar',
+                  ),
+                ),
+                _buildIconButton(
+                  icon: Icons.close,
+                  color: Colors.red,
+                  tooltip: 'Rejeitar',
+                  onPressed: () => _handleAction(
+                    () => _repository.reject(app.id!),
+                    'Erro ao rejeitar',
+                  ),
+                ),
+                _buildIconButton(
+                  icon: Icons.send,
+                  color: Colors.blue,
+                  tooltip: 'Enviar',
+                  onPressed: () => _handleAction(
+                    () => _repository.send(app.id!),
+                    'Erro ao enviar',
+                  ),
+                ),
+                _buildIconButton(
+                  icon: Icons.delete,
+                  color: Colors.grey.shade700,
+                  tooltip: 'Excluir',
+                  onPressed: () => _handleAction(
+                    () => _repository.delete(app.id!),
+                    'Erro ao excluir',
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIconButton({
+    required IconData icon,
+    required Color color,
+    required String tooltip,
+    required VoidCallback onPressed,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: IconButton(
+        icon: Icon(icon, color: color),
+        tooltip: tooltip,
+        onPressed: onPressed,
+      ),
+    );
   }
 
   @override
@@ -111,44 +178,7 @@ class _ApplicationsState extends State<Applications> {
           return ListView.builder(
             itemCount: applications.length,
             itemBuilder: (context, index) {
-              final app = applications[index];
-              return ListTile(
-                title: Text(app.title ?? "Sem nome"),
-                subtitle: Row(
-                  children: [
-                    Text("ID: ${app.id ?? 'Desconhecido'} - "),
-                    Text(
-                      statusMap[app.status] ?? app.status!,
-                      style: TextStyle(color: _getStatusColor(app.status!)),
-                    ),
-                  ],
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.check, color: Colors.green),
-                      tooltip: 'Aprovar',
-                      onPressed: () => _acceptApplication(app),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close, color: Colors.red),
-                      tooltip: 'Rejeitar',
-                      onPressed: () => _rejectApplication(app),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.send, color: Colors.blue),
-                      tooltip: 'Enviar',
-                      onPressed: () => _sendApplication(app),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.grey),
-                      tooltip: 'Excluir',
-                      onPressed: () => _deleteApplication(app),
-                    ),
-                  ],
-                ),
-              );
+              return _buildApplicationCard(applications[index]);
             },
           );
         },
