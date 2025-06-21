@@ -110,8 +110,8 @@ class _CompaniesState extends State<Companies> {
     );
   }
 
-  void _ShowAddForm(BuildContext context) {
-    showModalBottomSheet(
+  void _ShowAddForm(BuildContext context) async {
+    final created = await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder:
@@ -125,6 +125,11 @@ class _CompaniesState extends State<Companies> {
             child: const AddCompany(),
           ),
     );
+    if (created == true) {
+      setState(() {
+        companiesFuture = repository.list();
+      });
+    }
   }
 
   void _showNewApplicationForm(BuildContext context, int id) {

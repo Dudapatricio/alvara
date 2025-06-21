@@ -28,36 +28,43 @@ class _AddCompany extends State<AddCompany> {
             children: [
               TextFormField(
                 decoration: const InputDecoration(labelText: "Nome"),
-                validator: (value) => Validators(value)
-                    .setErroMessage("Nome inválido")
-                    .isNotNull()
-                    .isNotEmpty()
-                    .isMinLengh(10)
-                    .isMaxLengh(200)
-                    .apply(),
+                validator:
+                    (value) =>
+                        Validators(value)
+                            .setErroMessage("Nome inválido")
+                            .isNotNull()
+                            .isNotEmpty()
+                            .isMinLengh(3)
+                            .isMaxLengh(200)
+                            .apply(),
                 onSaved: (value) => _name = value ?? '',
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "CNPJ"),
-                validator: (value) => Validators(value)
-                    .setErroMessage("CNPJ inválido")
-                    .isNotNull()
-                    .isNotEmpty()
-                    .isMinLengh(14)
-                    .isMaxLengh(14)
-                    .isOnlyNumber()
-                    .apply(),
+                maxLength: 14,
+                validator:
+                    (value) =>
+                        Validators(value)
+                            .setErroMessage("CNPJ inválido")
+                            .isNotNull()
+                            .isNotEmpty()
+                            .isMinLengh(14)
+                            .isMaxLengh(14)
+                            .isOnlyNumber()
+                            .apply(),
                 onSaved: (value) => _cnpj = value ?? '',
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Endereço"),
-                validator: (value) => Validators(value)
-                    .setErroMessage("Endereço inválido")
-                    .isNotNull()
-                    .isNotEmpty()
-                    .isMinLengh(3)
-                    .isMaxLengh(200)
-                    .apply(),
+                validator:
+                    (value) =>
+                        Validators(value)
+                            .setErroMessage("Endereço inválido")
+                            .isNotNull()
+                            .isNotEmpty()
+                            .isMinLengh(3)
+                            .isMaxLengh(200)
+                            .apply(),
                 onSaved: (value) => _addressString = value ?? '',
               ),
               TextFormField(
@@ -65,10 +72,7 @@ class _AddCompany extends State<AddCompany> {
                 onSaved: (value) => _description = value ?? '',
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _submit,
-                child: const Text("Salvar"),
-              ),
+              ElevatedButton(onPressed: _submit, child: const Text("Salvar")),
             ],
           ),
         ),
@@ -81,7 +85,8 @@ class _AddCompany extends State<AddCompany> {
 
     _formKey.currentState!.save();
 
-    final repository = DomainRepositoryFactory().getRepository<DomainCompanyRepository>();
+    final repository =
+        DomainRepositoryFactory().getRepository<DomainCompanyRepository>();
     repository
         .create(
           Company(
@@ -93,22 +98,24 @@ class _AddCompany extends State<AddCompany> {
         )
         .then((_) {
           if (!mounted) return;
-          Navigator.of(context).pop();
+          Navigator.pop(context, true);
           showDialog(
             context: context,
-            builder: (_) => const AlertDialog(
-              content: Text('Empresa criada com sucesso!'),
-            ),
+            builder:
+                (_) => const AlertDialog(
+                  content: Text('Empresa criada com sucesso!'),
+                ),
           );
         })
         .onError((error, _) {
           if (!mounted) return;
           showDialog(
             context: context,
-            builder: (_) => AlertDialog(
-              title: const Text('Erro'),
-              content: Text('Falha ao criar empresa: $error'),
-            ),
+            builder:
+                (_) => AlertDialog(
+                  title: const Text('Erro'),
+                  content: Text('Falha ao criar empresa: $error'),
+                ),
           );
         });
   }

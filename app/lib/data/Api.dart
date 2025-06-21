@@ -40,7 +40,6 @@ class Api {
 
   Future<http.Response> delete(String uri, int id) async {
     final url = Uri.parse("$baseDomain$uri/$id");
-    print("DELETE request to: $url"); // <-- Aqui
     final response = await http.delete(
       url,
       headers: {
