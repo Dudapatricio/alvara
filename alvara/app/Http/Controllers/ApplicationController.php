@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ApplicationLicenseType;
+use App\Enums\ApplicationStatus;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -78,10 +79,17 @@ class ApplicationController extends Controller
      */
     public function destroy(Application $application)
     {
-        $application->delete();
+
+        if ($application->status == ApplicationStatus::OPEN) {
+            $application->delete();
+            return response()->json([
+                "message" => "Deletado com sucesso"
+            ]);
+        }
+
         return response()->json([
-            "message" => "Deletado com successo"
-        ]);
+            "message" => "Só pode ser deletado em estado de CRIADO"
+        ], 400);
     }
 
     public function accept(Application $application): JsonResponse
