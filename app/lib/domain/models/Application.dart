@@ -19,6 +19,7 @@ class Application implements IModel {
 
   factory Application.fromApi(api.Application object) {
     return Application(
+      id: object.id,
       status: object.status,
       title: object.title,
       type: object.type,

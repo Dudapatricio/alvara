@@ -35,7 +35,7 @@ class _NewApplication extends State<NewApplication> {
                             .setErroMessage("Titulo inválido")
                             .isNotNull()
                             .isNotEmpty()
-                            .isMinLengh(10)
+                            .isMinLengh(3)
                             .isMaxLengh(200)
                             .apply(),
                 onSaved: (value) => _title = value ?? '',

@@ -19,6 +19,7 @@ class Application implements IModel {
   });
   factory Application.fromMap(Map<String, dynamic> object) {
     return Application(
+      id: object["id"],
       status: object["status"],
       title: object["title"],
       type: object["type"],
@@ -29,6 +30,7 @@ class Application implements IModel {
   factory Application.fromJson(String jsonContent) {
     final object = json.decode(jsonContent);
     return Application(
+      id: object["id"],
       status: object["status"],
       title: object["title"],
       type: object["type"],
