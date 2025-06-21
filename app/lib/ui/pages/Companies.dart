@@ -19,7 +19,8 @@ class _CompaniesState extends State<Companies> {
   @override
   void initState() {
     super.initState();
-    repository = DomainRepositoryFactory().getRepository<DomainCompanyRepository>();
+    repository =
+        DomainRepositoryFactory().getRepository<DomainCompanyRepository>();
     _loadCompanies();
   }
 
@@ -30,21 +31,22 @@ class _CompaniesState extends State<Companies> {
   Future<void> _confirmAndDelete(Company company) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("Confirmar exclusão"),
-        content: const Text("Deseja realmente excluir esta empresa?"),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text("Cancelar"),
+      builder:
+          (_) => AlertDialog(
+            title: const Text("Confirmar exclusão"),
+            content: const Text("Deseja realmente excluir esta empresa?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text("Cancelar"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                child: const Text("Excluir"),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text("Excluir"),
-          ),
-        ],
-      ),
     );
 
     if (confirmed == true) {
@@ -57,13 +59,16 @@ class _CompaniesState extends State<Companies> {
     final created = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      builder: (_) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 16, right: 16, top: 16,
-        ),
-        child: const AddCompany(),
-      ),
+      builder:
+          (_) => Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: 16,
+              right: 16,
+              top: 16,
+            ),
+            child: const AddCompany(),
+          ),
     );
 
     if (created == true) {
@@ -75,13 +80,16 @@ class _CompaniesState extends State<Companies> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (_) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 16, right: 16, top: 16,
-        ),
-        child: NewApplication(id: companyId),
-      ),
+      builder:
+          (_) => Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: 16,
+              right: 16,
+              top: 16,
+            ),
+            child: NewApplication(companyId: companyId),
+          ),
     );
   }
 
@@ -118,11 +126,18 @@ class _CompaniesState extends State<Companies> {
 
               return Card(
                 elevation: 2,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  title: Text(company.name ?? "Sem nome",
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  title: Text(
+                    company.name ?? "Sem nome",
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
                   subtitle: Text("ID: ${company.id ?? 'Desconhecido'}"),
                   trailing: Wrap(
                     spacing: 8,
@@ -130,7 +145,8 @@ class _CompaniesState extends State<Companies> {
                       IconButton(
                         icon: const Icon(Icons.send, color: Colors.blue),
                         tooltip: "Nova solicitação",
-                        onPressed: () => _showNewApplicationForm(company.id ?? 0),
+                        onPressed:
+                            () => _showNewApplicationForm(company.id ?? 0),
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),

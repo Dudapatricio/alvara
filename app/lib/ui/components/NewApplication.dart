@@ -1,98 +1,130 @@
+import 'package:flutter/material.dart';
 import 'package:app/domain/factories/DomainRepositoryFactory.dart';
 import 'package:app/domain/models/Application.dart';
 import 'package:app/domain/repositories/DomainApplicationRepository.dart';
 import 'package:app/ui/pages/Utils.dart';
-import 'package:flutter/material.dart';
 
 class NewApplication extends StatefulWidget {
-  late int id;
-  NewApplication({super.key, required this.id});
+  final int companyId;
+  const NewApplication({super.key, required this.companyId});
 
   @override
-  State<NewApplication> createState() => _NewApplication(id: id);
+  State<NewApplication> createState() => _NewApplicationState();
 }
 
-class _NewApplication extends State<NewApplication> {
+class _NewApplicationState extends State<NewApplication> {
   final _formKey = GlobalKey<FormState>();
-  String? _title;
+  final _titleController = TextEditingController();
   String? _type;
-  late int id;
-  _NewApplication({required this.id});
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: [
-        Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(labelText: "Titulo"),
-                validator:
-                    (value) =>
-                        Validators(value)
-                            .setErroMessage("Titulo inválido")
-                            .isNotNull()
-                            .isNotEmpty()
-                            .isMinLengh(3)
-                            .isMaxLengh(200)
-                            .apply(),
-                onSaved: (value) => _title = value ?? '',
+    final theme = Theme.of(context);
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+        left: 24,
+        right: 24,
+        top: 24,
+      ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextFormField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                labelText: "Título",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: theme.inputDecorationTheme.fillColor ?? Colors.grey[50],
               ),
-              DropdownButtonFormField(
-                decoration: const InputDecoration(labelText: "Tipo"),
-                items: [
-                  DropdownMenuItem(value: "CMT", child: Text("COMMERCIAL")),
-                  DropdownMenuItem(value: "IND", child: Text("INDUSTRIAL")),
-                  DropdownMenuItem(value: "RST", child: Text("RESIDENTIAL")),
-                ],
-
-                onChanged: (value) => {setState(() => _type = value ?? "")},
-                validator:
-                    (value) =>
-                        Validators(
-                          value,
-                        ).setErroMessage("Tipo inválido").isNotNull().apply(),
+              validator: (value) => Validators(value)
+                  .setErroMessage("Título inválido")
+                  .isNotNull()
+                  .isNotEmpty()
+                  .isMinLengh(3)
+                  .isMaxLengh(200)
+                  .apply(),
+            ),
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                labelText: "Tipo",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: theme.inputDecorationTheme.fillColor ?? Colors.grey[50],
               ),
-              const SizedBox(height: 16),
-              ElevatedButton(onPressed: _submit, child: const Text("Salvar")),
-            ],
-          ),
+              items: const [
+                DropdownMenuItem(value: "CMT", child: Text("COMMERCIAL")),
+                DropdownMenuItem(value: "IND", child: Text("INDUSTRIAL")),
+                DropdownMenuItem(value: "RST", child: Text("RESIDENTIAL")),
+              ],
+              value: _type,
+              onChanged: (value) => setState(() => _type = value),
+              validator: (value) => Validators(value)
+                  .setErroMessage("Tipo inválido")
+                  .isNotNull()
+                  .apply(),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton.icon(
+              onPressed: _submit,
+              icon: const Icon(Icons.check),
+              label: const Text("Salvar"),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
 
-    _formKey.currentState!.save();
-
     final repository =
         DomainRepositoryFactory().getRepository<DomainApplicationRepository>();
+
     repository
-        .create(Application(companyId: id, title: _title!, type: _type!))
+        .create(Application(
+          companyId: widget.companyId,
+          title: _titleController.text,
+          type: _type!,
+        ))
         .then((_) {
           if (!mounted) return;
           Navigator.of(context).pop();
           showDialog(
             context: context,
-            builder:
-                (_) => const AlertDialog(
-                  content: Text('Solicitação criada com sucesso!'),
-                ),
+            builder: (_) => const AlertDialog(
+              content: Text('Solicitação criada com sucesso!'),
+            ),
           );
         })
         .onError((error, _) {
           if (!mounted) return;
           showDialog(
             context: context,
-            builder:
-                (_) => AlertDialog(
-                  title: const Text('Erro'),
-                  content: Text('Falha ao criar solicitação: $error'),
-                ),
+            builder: (_) => AlertDialog(
+              title: const Text('Erro'),
+              content: Text('Falha ao criar solicitação: $error'),
+            ),
           );
         });
   }
