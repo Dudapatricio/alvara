@@ -80,7 +80,7 @@ class ApplicationController extends Controller
     public function destroy(Application $application)
     {
 
-        if ($application->status == ApplicationStatus::OPEN) {
+        if ($application->status == ApplicationStatus::OPEN->value) {
             $application->delete();
             return response()->json([
                 "message" => "Deletado com sucesso"
