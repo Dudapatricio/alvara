@@ -1,38 +1,54 @@
-import 'package:app/ui/components/MyTextButton.dart';
 import 'package:flutter/material.dart';
+import 'package:app/ui/components/MyTextButton.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tela Pricipal")),
+      appBar: AppBar(title: const Text("Tela Principal")),
       body: Padding(
-        padding: EdgeInsets.all(16),
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              child: MyTextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/companies");
-                },
-                text: "Empresas",
-              ),
+        padding: const EdgeInsets.all(24),
+        child: GridView(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 24,
+            mainAxisSpacing: 24,
+            childAspectRatio: 1.2,
+          ),
+          children: [
+            _buildMenuButton(
+              context,
+              label: "Empresas",
+              route: "/companies",
             ),
-            Container(
-              alignment: Alignment.center,
-              child: MyTextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/applications");
-                },
-                text: "Solicitações",
-              ),
+            _buildMenuButton(
+              context,
+              label: "Solicitações",
+              route: "/applications",
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildMenuButton(
+    BuildContext context, {
+    required String label,
+    required String route,
+  }) {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      clipBehavior: Clip.antiAlias,
+      child: MyTextButton(
+        onPressed: () => Navigator.pushNamed(context, route),
+        text: label,
+        // Garanta que o botão ocupe todo o espaço
+        width: double.infinity,
+        height: double.infinity,
       ),
     );
   }
