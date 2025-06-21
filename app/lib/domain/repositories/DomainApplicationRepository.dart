@@ -1,13 +1,10 @@
 import 'package:app/data/factories/ApiRepositoryfacotory.dart';
-import 'package:app/data/models/IModel.dart';
 import 'package:app/data/repositories/ApiApplicationRepository.dart';
-import 'package:app/data/repositories/IApiRepository.dart';
 import 'package:app/domain/models/Application.dart';
 import 'package:app/domain/repositories/IRepository.dart';
 
 class DomainApplicationRepository implements IRepository<Application> {
-  @override
-  IApiRepository<IModel> repository;
+  ApiApplicationRepository repository;
   DomainApplicationRepository()
     : repository =
           ApiRepositoryFactory().getRepository<ApiApplicationRepository>();
@@ -33,5 +30,17 @@ class DomainApplicationRepository implements IRepository<Application> {
   @override
   Future delete(int id) {
     throw UnimplementedError();
+  }
+
+  Future<void> accept(int id) async {
+    await repository.accept(id);
+  }
+
+  Future<void> reject(int id) async {
+    await repository.reject(id);
+  }
+
+  Future<void> send(int id) async {
+    await repository.send(id);
   }
 }

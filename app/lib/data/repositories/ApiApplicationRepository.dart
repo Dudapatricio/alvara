@@ -35,7 +35,47 @@ class ApiApplicationRepository implements IApiRepository<Application> {
   }
 
   @override
-  Future delete(int id) {
-    throw UnimplementedError();
+  Future<void> delete(int id) async {
+    final response = await apiDomain.delete("/applications", id);
+    if (response.statusCode != 204) {
+      if (response.statusCode == 400) {
+        final data = json.decode(response.body);
+        throw Exception(data["message"] ?? "Erro desconhecido ao deletar");
+      }
+      throw Exception("Falha ao deletar application com id $id");
+    }
+  }
+
+  Future<void> accept(int id) async {
+    final response = await apiDomain.post("/applications/$id/accept", null);
+    if (response.statusCode != 200) {
+      if (response.statusCode == 400) {
+        final data = json.decode(response.body);
+        throw Exception(data["message"] ?? "Erro ao aceitar");
+      }
+      throw Exception("Falha ao aceitar application com id $id");
+    }
+  }
+
+  Future<void> reject(int id) async {
+    final response = await apiDomain.post("/applications/$id/reject", null);
+    if (response.statusCode != 200) {
+      if (response.statusCode == 400) {
+        final data = json.decode(response.body);
+        throw Exception(data["message"] ?? "Erro ao rejeitar");
+      }
+      throw Exception("Falha ao rejeitar application com id $id");
+    }
+  }
+
+  Future<void> send(int id) async {
+    final response = await apiDomain.post("/applications/$id/send", null);
+    if (response.statusCode != 200) {
+      if (response.statusCode == 400) {
+        final data = json.decode(response.body);
+        throw Exception(data["message"] ?? "Erro ao enviar");
+      }
+      throw Exception("Falha ao enviar application com id $id");
+    }
   }
 }

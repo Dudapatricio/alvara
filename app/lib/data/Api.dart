@@ -25,7 +25,7 @@ class Api {
     return response;
   }
 
-  Future<http.Response> post(String uri, String obj) async {
+  Future<http.Response> post(String uri, String? obj) async {
     final url = Uri.parse('$baseDomain$uri');
     final response = await http.post(
       url,

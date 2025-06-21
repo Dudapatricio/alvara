@@ -33,8 +33,45 @@ class _ApplicationsState extends State<Applications> {
   }
 
   Future<void> _deleteApplication(Application app) async {
-    await _repository.delete(app.id!);
-    setState(_loadApplications);
+    try {
+      await _repository.delete(app.id!);
+      setState(_loadApplications);
+    } catch (e) {
+      _showError("Erro ao excluir: $e");
+    }
+  }
+
+  Future<void> _acceptApplication(Application app) async {
+    try {
+      await _repository.accept(app.id!);
+      setState(_loadApplications);
+    } catch (e) {
+      _showError("Erro ao aceitar: $e");
+    }
+  }
+
+  Future<void> _rejectApplication(Application app) async {
+    try {
+      await _repository.reject(app.id!);
+      setState(_loadApplications);
+    } catch (e) {
+      _showError("Erro ao rejeitar: $e");
+    }
+  }
+
+  Future<void> _sendApplication(Application app) async {
+    try {
+      await _repository.send(app.id!);
+      setState(_loadApplications);
+    } catch (e) {
+      _showError("Erro ao enviar: $e");
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+    );
   }
 
   Color _getStatusColor(String status) {
@@ -86,9 +123,30 @@ class _ApplicationsState extends State<Applications> {
                     ),
                   ],
                 ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  onPressed: () => _deleteApplication(app),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.check, color: Colors.green),
+                      tooltip: 'Aprovar',
+                      onPressed: () => _acceptApplication(app),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, color: Colors.red),
+                      tooltip: 'Rejeitar',
+                      onPressed: () => _rejectApplication(app),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.send, color: Colors.blue),
+                      tooltip: 'Enviar',
+                      onPressed: () => _sendApplication(app),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.grey),
+                      tooltip: 'Excluir',
+                      onPressed: () => _deleteApplication(app),
+                    ),
+                  ],
                 ),
               );
             },

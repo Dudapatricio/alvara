@@ -6,7 +6,6 @@ import 'package:app/domain/models/Company.dart';
 import 'package:app/domain/repositories/IRepository.dart';
 
 class DomainCompanyRepository implements IRepository<Company> {
-  @override
   IApiRepository<IModel> repository;
   DomainCompanyRepository()
     : repository =
