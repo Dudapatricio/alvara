@@ -20,6 +20,11 @@ class _ApplicationsState extends State<Applications> {
     'SUS': 'Aprovado',
     'RGC': 'Rejeitado',
   };
+  final Map<String, String> typeMap = {
+    "CMT": "COMMERCIAL",
+    "IND": "INDUSTRIAL",
+    "RST": "RESIDENTIAL",
+  };
 
   @override
   void initState() {
@@ -76,11 +81,10 @@ class _ApplicationsState extends State<Applications> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(app.title ?? 'Sem nome',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                )),
+            Text(
+              app.title ?? 'Sem nome',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
             Text("ID: ${app.id ?? 'Desconhecido'}"),
             const SizedBox(height: 4),
@@ -91,6 +95,8 @@ class _ApplicationsState extends State<Applications> {
                 fontWeight: FontWeight.w600,
               ),
             ),
+            const SizedBox(height: 4),
+            Text("Tipo: ${typeMap[app.type] ?? app.type}"),
             const SizedBox(height: 12),
             Row(
               children: [
@@ -98,37 +104,41 @@ class _ApplicationsState extends State<Applications> {
                   icon: Icons.check,
                   color: Colors.green,
                   tooltip: 'Aprovar',
-                  onPressed: () => _handleAction(
-                    () => _repository.accept(app.id!),
-                    'Erro ao aprovar',
-                  ),
+                  onPressed:
+                      () => _handleAction(
+                        () => _repository.accept(app.id!),
+                        'Erro ao aprovar',
+                      ),
                 ),
                 _buildIconButton(
                   icon: Icons.close,
                   color: Colors.red,
                   tooltip: 'Rejeitar',
-                  onPressed: () => _handleAction(
-                    () => _repository.reject(app.id!),
-                    'Erro ao rejeitar',
-                  ),
+                  onPressed:
+                      () => _handleAction(
+                        () => _repository.reject(app.id!),
+                        'Erro ao rejeitar',
+                      ),
                 ),
                 _buildIconButton(
                   icon: Icons.send,
                   color: Colors.blue,
                   tooltip: 'Enviar',
-                  onPressed: () => _handleAction(
-                    () => _repository.send(app.id!),
-                    'Erro ao enviar',
-                  ),
+                  onPressed:
+                      () => _handleAction(
+                        () => _repository.send(app.id!),
+                        'Erro ao enviar',
+                      ),
                 ),
                 _buildIconButton(
                   icon: Icons.delete,
                   color: Colors.grey.shade700,
                   tooltip: 'Excluir',
-                  onPressed: () => _handleAction(
-                    () => _repository.delete(app.id!),
-                    'Erro ao excluir',
-                  ),
+                  onPressed:
+                      () => _handleAction(
+                        () => _repository.delete(app.id!),
+                        'Erro ao excluir',
+                      ),
                 ),
               ],
             ),
