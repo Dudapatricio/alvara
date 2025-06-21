@@ -20,6 +20,7 @@ class Company implements IModel {
 
   factory Company.fromMap(Map<String, dynamic> object) {
     return Company(
+      id: object["id"],
       name: object["name"],
       cnpj: object["cnpj"],
       addressString: object["address_string"],
@@ -30,6 +31,7 @@ class Company implements IModel {
   factory Company.fromJson(String jsonContent) {
     final object = json.decode(jsonContent);
     return Company(
+      id: object["id"],
       name: object["name"],
       cnpj: object["cnpj"],
       addressString: object["address_string"],

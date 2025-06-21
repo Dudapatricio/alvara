@@ -33,4 +33,9 @@ class ApiApplicationRepository implements IApiRepository<Application> {
 
     return data.map((jsonItem) => Application.fromMap(jsonItem)).toList();
   }
+
+  @override
+  Future delete(int id) {
+    throw UnimplementedError();
+  }
 }

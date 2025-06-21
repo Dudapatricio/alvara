@@ -31,7 +31,7 @@ class DomainCompanyRepository implements IRepository<Company> {
   }
 
   @override
-  Future delete(int id) {
-    throw UnimplementedError();
+  Future delete(int id) async {
+    await repository.delete(id);
   }
 }

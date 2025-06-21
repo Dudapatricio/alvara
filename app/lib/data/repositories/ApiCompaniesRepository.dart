@@ -34,4 +34,9 @@ class ApiCompaniesRepository implements IApiRepository<Company> {
   Future<Company> get() {
     throw UnimplementedError();
   }
+
+  @override
+  Future delete(int id) async {
+    await apiDomain.delete("/companies", id);
+  }
 }

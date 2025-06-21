@@ -56,7 +56,52 @@ class _CompaniesState extends State<Companies> {
               return ListTile(
                 title: Text(company.name ?? "Sem nome"),
                 subtitle: Text(company.id?.toString() ?? "ID desconhecido"),
-                onTap: () => _showNewApplicationForm(context, company.id ?? 0),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed:
+                          () =>
+                              _showNewApplicationForm(context, company.id ?? 0),
+                      icon: const Icon(Icons.send),
+                    ),
+
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red,
+                      onPressed: () async {
+                        final confirmed = await showDialog<bool>(
+                          context: context,
+                          builder:
+                              (context) => AlertDialog(
+                                title: const Text("Confirmar exclusão"),
+                                content: const Text(
+                                  "Deseja realmente excluir esta empresa?",
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed:
+                                        () => Navigator.pop(context, false),
+                                    child: const Text("Cancelar"),
+                                  ),
+                                  TextButton(
+                                    onPressed:
+                                        () => Navigator.pop(context, true),
+                                    child: const Text("Excluir"),
+                                  ),
+                                ],
+                              ),
+                        );
+                        if (confirmed == true) {
+                          await repository.delete(company.id!);
+                          setState(() {
+                            companiesFuture = repository.list();
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
               );
             },
           );

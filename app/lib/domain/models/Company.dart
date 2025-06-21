@@ -10,6 +10,7 @@ class Company implements IModel {
   String description;
 
   Company({
+    this.id,
     required this.name,
     required this.cnpj,
     required this.addressString,
@@ -19,6 +20,7 @@ class Company implements IModel {
   @override
   factory Company.fromApi(api.Company model) {
     return Company(
+      id: model.id,
       name: model.name,
       cnpj: model.cnpj,
       addressString: model.addressString,
@@ -29,6 +31,7 @@ class Company implements IModel {
   @override
   api.Company toApi() {
     return api.Company(
+      id: id,
       name: name,
       cnpj: cnpj,
       addressString: addressString,
