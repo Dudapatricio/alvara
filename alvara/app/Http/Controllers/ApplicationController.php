@@ -64,8 +64,8 @@ class ApplicationController extends Controller
     public function update(Request $request, Application $application)
     {
         $validated = $request->validate([
-            "status"=> "required|string|max:3",
-            "title"=> "required|string|max:225",
+            "status" => "required|string|max:3",
+            "title" => "required|string|max:225",
         ]);
 
         $application->update($validated);
@@ -84,21 +84,24 @@ class ApplicationController extends Controller
         ]);
     }
 
-    public function accept(Application $application): JsonResponse {
+    public function accept(Application $application): JsonResponse
+    {
         $application->getStatusController()->accept();
         return response()->json([
             "message" => "A Solicitação foi Aceita!"
         ]);
     }
 
-    public function reject(Application $application): JsonResponse {
+    public function reject(Application $application): JsonResponse
+    {
         $application->getStatusController()->reject();
         return response()->json([
             "message" => "A Solicitação foi Rejeitada!"
         ]);
     }
 
-    public function send(Application $application): JsonResponse {
+    public function send(Application $application): JsonResponse
+    {
         $application->getStatusController()->send();
         return response()->json([
             "message" => "A Solicitação foi Enviada!"
