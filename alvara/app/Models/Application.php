@@ -18,6 +18,7 @@ class Application extends Model
     use HasFactory;
 
     protected $fillable = [
+        "id",
         "status",
         "title",
         "type",
@@ -28,11 +29,13 @@ class Application extends Model
         "status" => ApplicationStatus::class,
         "type" => ApplicationLicenseType::class,
     ];
-    public function attachments() {
+    public function attachments()
+    {
         return $this->hasMany(Attachment::class);
     }
 
-    public function getStatusController(): IApplicationState {
+    public function getStatusController(): IApplicationState
+    {
         switch ($this->status) {
             case ApplicationStatus::SUCCESS->value:
                 return new ApplicationStateSuccess($this);
