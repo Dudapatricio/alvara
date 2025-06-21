@@ -37,7 +37,7 @@ class ApiApplicationRepository implements IApiRepository<Application> {
   @override
   Future<void> delete(int id) async {
     final response = await apiDomain.delete("/applications", id);
-    if (response.statusCode != 204) {
+    if (response.statusCode != 200) {
       if (response.statusCode == 400) {
         final data = json.decode(response.body);
         throw Exception(data["message"] ?? "Erro desconhecido ao deletar");
