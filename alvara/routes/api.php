@@ -63,10 +63,11 @@ use function Pest\Laravel\post;
 /*Route::get("/attachments", [AttachmentController::class, "index"]);*/
 
 /*Route::post("/applications", [ApplicationController::class, "store"]);*/
+
 Route::apiResource(
     "/applications",
     ApplicationController::class
-)->only(["index", "store", "show", "update"]);
+)->only(["index", "store", "show", "update", "destroy"]);
 
 Route::prefix("/applications/{application}")->group(function () {
     Route::post("accept", [ApplicationController::class, "accept"]);
@@ -78,4 +79,4 @@ Route::prefix("/applications/{application}")->group(function () {
 Route::apiResource(
     "companies",
     CompanyController::class
-)->only(["index", "store", "show", "update"]);
+)->only(["index", "store", "show", "update", "destroy"]);

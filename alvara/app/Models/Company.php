@@ -10,6 +10,7 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
+        "id",
         "name",
         "cnpj",
         "address_string",
